@@ -25,20 +25,20 @@ public class CurrencyConverterApplication {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(reader);
 
-        output.println("$$$ Welcome to the Currency Converter application $$$");
-        output.print("1. Enter the SOURCE currency code (allowed values: USD, EUR or GBP): ");
-        String sourceCurrency = scanner.next();
+        String lineRead = "";
+        lineRead = scanner.nextLine();
+        while (!lineRead.isBlank()) {
+            String[] tokens = lineRead.split(" ");
+            String sourceCurrency = tokens[0];
+            String targetCurrency = tokens[1];
+            String amount = tokens[2];
 
-        output.print("2. Enter the TARGET currency code (allowed values: USD, EUR or GBP): ");
-        String targetCurrency = scanner.next();
+            double conversionFactor = currencyConversionMap.get(sourceCurrency + "->" + targetCurrency);
 
-        output.print("3. Enter the AMOUNT in source currency code to be converted (use '.' as a decimal separator): ");
-        String amount = scanner.next();
+            double convertedAmount = Double.valueOf(amount) * conversionFactor;
 
-        double conversionFactor = currencyConversionMap.get(sourceCurrency + "->" + targetCurrency);
-
-        double convertedAmount = Double.valueOf(amount);
-
-        output.println(amount + " " + sourceCurrency + " = " + convertedAmount + " " + targetCurrency);
+            output.println(convertedAmount);
+            lineRead = scanner.nextLine();
+        }
     }
 }
